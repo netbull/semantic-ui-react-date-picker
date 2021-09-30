@@ -55,7 +55,7 @@ function buildTable(mode, date, timeParts, callback, disabled) {
 	);
 }
 
-function TimePicker({ clearable, disabled, size, label, placeholder, value, onChange, onClear, noMargin, onlyInput, ...rest }) {
+function TimePicker({ clearable, disabled, size, label, placeholder, value, onChange, onClear, noMargin, onlyInput, popupOpen, ...rest }) {
 	const contextRef = useRef();
 	const inputRef = useRef();
 	const [open, togglePopup] = useState(false);
@@ -65,7 +65,15 @@ function TimePicker({ clearable, disabled, size, label, placeholder, value, onCh
 		if (mode === MODE.hours && open) {
 			inputRef.current.blur();
 		}
-	}, [mode]);
+	}, [mode, popupOpen]);
+
+	useEffect(() => {
+		if (popupOpen) {
+			inputRef.current.focus();
+		} else {
+			inputRef.current.blur();
+		}
+	}, [popupOpen]);
 
 	function handleClick(value) {
 		setMode(mode === MODE.hours ? MODE.minutes : MODE.hours);
@@ -139,6 +147,7 @@ TimePicker.propTypes = {
 	placeholder: PropTypes.string,
 	onChange: PropTypes.func,
 	onClear: PropTypes.func,
+	popupOpen: PropTypes.bool,
 };
 
 TimePicker.defaultProps = {
@@ -151,6 +160,7 @@ TimePicker.defaultProps = {
 	placeholder: 'Select a time',
 	onChange: () => {},
 	onClear: () => {},
+	popupOpen: false,
 };
 
 export default TimePicker;
