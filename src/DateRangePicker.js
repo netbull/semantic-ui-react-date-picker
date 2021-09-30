@@ -168,6 +168,7 @@ function DateRangePicker({ allowSingleDay, futureRanges, asInput, selection, cle
   return (
     <>
       <Popup
+				style={{ padding: 0 }}
         position="bottom center"
         flowing
 				disabled={disabled}
@@ -198,8 +199,7 @@ function DateRangePicker({ allowSingleDay, futureRanges, asInput, selection, cle
               ...dates,
             });
           }
-        }}
-      >
+        }}>
         <Popup.Content style={{ width: isCustomRange ? 770 : 150 }}>
           {!isCustomRange ? rangeMenu() : (
             <Grid centered divided>

@@ -112,6 +112,7 @@ function TimePicker({ clearable, disabled, size, label, placeholder, value, onCh
 	return (
 		<>
 			<Popup
+				style={{ padding: 0 }}
 				context={contextRef}
 				className="calendar"
 				open={open}

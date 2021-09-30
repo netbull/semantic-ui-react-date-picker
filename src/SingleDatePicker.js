@@ -46,6 +46,7 @@ function SingleDatePicker({ asInput, onlyInput, selection, clearable, disabled, 
 	return (
 		<>
 			<Popup
+				style={{ padding: 0 }}
 				position="bottom center"
 				flowing
 				disabled={disabled}
