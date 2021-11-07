@@ -31,7 +31,10 @@ function SingleDatePicker({ asInput, onlyInput, selection, clearable, disabled, 
 			toggleOpen(false);
 		}
 
-		newDate.hours(stateDate.hours()).minutes(stateDate.minutes());
+		if (stateDate) {
+			newDate.hours(stateDate.hours()).minutes(stateDate.minutes());
+		}
+
 		// If the date is before the minDate just assign the minDate
 		// this is in order to adjust the time picker
 		if (minDate && useTimepicker && newDate.isBefore(minDate)) {
