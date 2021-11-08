@@ -4,7 +4,7 @@ import * as PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import moment from 'moment';
 
-function Trigger({ dates, date, selection, asInput, onlyInput, clearable, disabled, onClear, label, placeholder, outputFormat, size, style, ...rest }) {
+function Trigger({ dates, date, selection, asInput, onlyInput, clearable, disabled, required, onClear, label, placeholder, outputFormat, size, style, ...rest }) {
 	let isEmpty = true;
 	let printLabel = label ?? placeholder;
 
@@ -28,6 +28,7 @@ function Trigger({ dates, date, selection, asInput, onlyInput, clearable, disabl
 				value={date ? date.format(outputFormat) : ''}
 				placeholder={placeholder}
 				disabled={disabled}
+				required={required}
 				onChange={() => {}}
 			/>
 			{clearable && !isEmpty && (
@@ -42,7 +43,7 @@ function Trigger({ dates, date, selection, asInput, onlyInput, clearable, disabl
 
 	if (asInput) {
 		return onlyInput ? input : (
-			<div className="ui field" style={style}>
+			<div className={`ui field${required ? ' required' : ''}`} style={style}>
 				{label && <label>{label}</label>}
 				{input}
 			</div>
@@ -94,6 +95,8 @@ Trigger.propTypes = {
 	asInput: PropTypes.bool,
 	onlyInput: PropTypes.bool,
 	clearable: PropTypes.bool,
+	disabled: PropTypes.bool,
+	required: PropTypes.bool,
 	onClear: PropTypes.func,
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
@@ -108,6 +111,8 @@ Trigger.defaultProps = {
 	asInput: false,
 	onlyInput: false,
 	clearable: true,
+	disabled: false,
+	required: false,
 	onClear: () => {},
 	label: null,
 	placeholder: null,

@@ -10,7 +10,7 @@ import { DATE_FORMAT_NORMAL, DATE_FORMAT, TIME_FORMAT, MODE } from './constants'
 import { formatDate } from './utils';
 import Trigger from './Trigger';
 
-function SingleDatePicker({ asInput, onlyInput, selection, clearable, disabled, syncValue, label, placeholder, onChange, onClear, date, minDate, options, outputFormat, valueFormat, triggerSize, triggerStyle, useTimepicker, ...rest }) {
+function SingleDatePicker({ asInput, onlyInput, selection, clearable, disabled, required, syncValue, label, placeholder, onChange, onClear, date, minDate, options, outputFormat, valueFormat, triggerSize, triggerStyle, useTimepicker, ...rest }) {
 	if (useTimepicker && (valueFormat.indexOf('H') === -1 || valueFormat.indexOf('m') === -1)) {
 		valueFormat = `${valueFormat} ${TIME_FORMAT}`;
 	}
@@ -101,6 +101,7 @@ function SingleDatePicker({ asInput, onlyInput, selection, clearable, disabled, 
 						asInput={asInput}
 						clearable={clearable}
 						disabled={disabled}
+						required={required}
 						date={stateDate}
 						label={label}
 						placeholder={placeholder}
@@ -165,6 +166,7 @@ SingleDatePicker.propTypes = {
 	selection: PropTypes.bool,
 	clearable: PropTypes.bool,
 	disabled: PropTypes.bool,
+	required: PropTypes.bool,
 	syncValue: PropTypes.bool,
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
@@ -186,6 +188,7 @@ SingleDatePicker.defaultProps = {
 	selection: false,
 	clearable: false,
 	disabled: false,
+	required: false,
 	syncValue: false,
 	label: null,
 	placeholder: 'Select a date',
