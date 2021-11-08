@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/netbull/semantic-ui-react-date-picker/compare/v1.1.1...v1.1.2) (2021-11-08)
+
+
+### Bug Fixes
+
+* added required flag ([fa70b4a](https://github.com/netbull/semantic-ui-react-date-picker/commit/fa70b4affa29f19f2b649d783b2ec9e3c7dc0e48))
+
 ## [1.1.1](https://github.com/netbull/semantic-ui-react-date-picker/compare/v1.1.0...v1.1.1) (2021-11-07)
 
 
