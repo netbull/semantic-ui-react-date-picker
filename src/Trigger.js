@@ -100,7 +100,7 @@ Trigger.propTypes = {
 	onClear: PropTypes.func,
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
-	size: PropTypes.oneOf(['mini', 'small', 'big']),
+	size: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']),
 	style: PropTypes.object,
 };
 

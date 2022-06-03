@@ -177,7 +177,7 @@ SingleDatePicker.propTypes = {
 	options: PropTypes.shape(omit(SingleDatePickerShape, ['onDateChange', 'onFocusChange', 'id'])),
 	outputFormat: PropTypes.string,
 	valueFormat: PropTypes.string,
-	triggerSize: PropTypes.oneOf(['mini', 'small', 'big']),
+	size: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']),
 	triggerStyle: PropTypes.object,
 	useTimepicker: PropTypes.bool,
 };
