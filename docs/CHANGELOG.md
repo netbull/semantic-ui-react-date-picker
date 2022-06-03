@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/netbull/semantic-ui-react-date-picker/compare/v1.1.3...v1.1.4) (2022-06-03)
+
+
+### Bug Fixes
+
+* added additional trigger sizes ([18340ff](https://github.com/netbull/semantic-ui-react-date-picker/commit/18340fff49ed16b0119a7d6d20130862a5fc59c9))
+
 ## [1.1.3](https://github.com/netbull/semantic-ui-react-date-picker/compare/v1.1.2...v1.1.3) (2022-06-03)
 
 
