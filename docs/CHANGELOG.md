@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/netbull/semantic-ui-react-date-picker/compare/v1.1.4...v1.1.5) (2022-06-03)
+
+
+### Bug Fixes
+
+* grid margins ([fa19c8f](https://github.com/netbull/semantic-ui-react-date-picker/commit/fa19c8fa106517f06b546392cd937426f889f62c))
+
 ## [1.1.4](https://github.com/netbull/semantic-ui-react-date-picker/compare/v1.1.3...v1.1.4) (2022-06-03)
 
 
