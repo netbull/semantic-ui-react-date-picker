@@ -200,7 +200,7 @@ function DateRangePicker({ allowSingleDay, futureRanges, asInput, selection, cle
             });
           }
         }}>
-        <Popup.Content style={{ width: isCustomRange ? 780 : 150 }}>
+        <Popup.Content style={{ width: 'auto' }}>
           {!isCustomRange ? rangeMenu() : (
             <Grid centered divided style={{ margin: 0 }}>
               <Grid.Row>
