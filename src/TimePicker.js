@@ -143,7 +143,7 @@ TimePicker.propTypes = {
 	noMargin: PropTypes.bool,
 	onlyInput: PropTypes.bool,
 	label: PropTypes.string,
-	size: PropTypes.oneOf(['mini']),
+	size: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']),
 	placeholder: PropTypes.string,
 	onChange: PropTypes.func,
 	onClear: PropTypes.func,

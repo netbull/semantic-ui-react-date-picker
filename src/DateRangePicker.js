@@ -274,7 +274,7 @@ DateRangePicker.propTypes = {
   options: PropTypes.shape(omit(DateRangePickerShape, ['onDatesChange', 'onFocusChange', 'startDateId', 'endDateId'])),
 	outputFormat: PropTypes.string,
 	valueFormat: PropTypes.string,
-	triggerSize: PropTypes.oneOf(['mini', 'small', 'big']),
+	triggerSize: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']),
 	triggerStyle: PropTypes.object,
 };
 
