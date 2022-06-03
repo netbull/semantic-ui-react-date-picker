@@ -200,9 +200,9 @@ function DateRangePicker({ allowSingleDay, futureRanges, asInput, selection, cle
             });
           }
         }}>
-        <Popup.Content style={{ width: isCustomRange ? 770 : 150 }}>
+        <Popup.Content style={{ width: isCustomRange ? 780 : 150 }}>
           {!isCustomRange ? rangeMenu() : (
-            <Grid centered divided>
+            <Grid centered divided style={{ margin: 0 }}>
               <Grid.Row>
                 <Grid.Column textAlign="center" tablet="16" computer={isCustomRange ? 3 : 12}>
                   {rangeMenu()}
