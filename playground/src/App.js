@@ -1,9 +1,9 @@
 import React from 'react';
-import { DateRangePicker } from 'date-picker';
+import {SingleDatePicker}  from 'date-picker';
 
 function App() {
   return (
-		<DateRangePicker
+		<SingleDatePicker
 			selection
 			onChange={(startDate, endDate) => {
 				console.log(startDate, endDate);
