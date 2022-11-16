@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import '~react-dates/lib/css/_datepicker.css';
 
 .CalendarMonth_caption {

@@ -1,17 +1,32 @@
 import React from 'react';
-import {SingleDatePicker}  from 'date-picker';
+import {SingleDatePicker, SingleDatePickerTW, TestDiv} from 'date-picker';
 
 function App() {
   return (
-		<SingleDatePicker
-			selection
-			onChange={(startDate, endDate) => {
-				console.log(startDate, endDate);
-			}}
-			onClear={() => {
+		<div style={{marginLeft: '80px'}}>
+			<SingleDatePicker
+				selection
+				onChange={(startDate, endDate) => {
+					console.log(startDate, endDate);
+				}}
+				onClear={() => {
 
-			}}
-		/>
+				}}
+			/>
+
+			<SingleDatePickerTW
+				selection
+				onChange={(startDate, endDate) => {
+					console.log(startDate, endDate);
+				}}
+				onClear={() => {
+
+				}}
+			/>
+
+			<TestDiv />
+		</div>
+
 	);
 }
 

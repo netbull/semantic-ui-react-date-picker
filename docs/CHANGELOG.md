@@ -50,7 +50,7 @@
 
 ### Features
 
-* implemented time picker for the SingleDatePicker ([874990a](https://github.com/netbull/semantic-ui-react-date-picker/commit/874990a715180707121f67ea48a67bfb20eba3c4))
+* implemented time picker for the SingleDatePickerTW ([874990a](https://github.com/netbull/semantic-ui-react-date-picker/commit/874990a715180707121f67ea48a67bfb20eba3c4))
 
 # 1.0.0 (2021-09-29)
 
