@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import * as PropTypes from 'prop-types';
-import { DayPickerSingleDateController, SingleDatePickerShape } from 'react-dates';
-import { Dropdown, Popup } from 'semantic-ui-react';
+import {DayPickerSingleDateController, SingleDatePickerShape} from 'react-dates';
+import { Popover, Transition } from '@headlessui/react'
 import moment from 'moment';
 import omit from 'lodash/omit';
-import range from 'lodash/range';
 
 import { DATE_FORMAT_NORMAL, DATE_FORMAT, TIME_FORMAT, MODE } from '../constants';
 import { formatDate } from '../utils';
-import TriggerTW from '../Tailwind/TriggerTW';
+import TriggerTW from "../Tailwind/TriggerTW";
 
-function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled, required, syncValue, label, placeholder, onChange, onClear, date, minDate, options, outputFormat, valueFormat, triggerSize, triggerStyle, useTimepicker, ...rest }) {
+function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled, required, syncValue, label, placeholder, onChange, onClear, date, minDate, options, outputFormat, valueFormat, triggerStyle, useTimepicker, ...rest }) {
 	if (useTimepicker && (valueFormat.indexOf('H') === -1 || valueFormat.indexOf('m') === -1)) {
 		valueFormat = `${valueFormat} ${TIME_FORMAT}`;
 	}
@@ -26,7 +25,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		setStateDate(formatDate(date, valueFormat));
 	}, [date]);
 
-	function handleDateChange(newDate) {
+	function handleDateChange(newDate, close) {
 		if (!useTimepicker) {
 			toggleOpen(false);
 		}
@@ -45,7 +44,9 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 			setStateDate(newDate);
 		}
 		onChange(newDate.format(valueFormat));
+		close()
 	}
+
 	function handleTimeChange(mode, value) {
 		if (mode === MODE.minutes) {
 			toggleOpen(false);
@@ -72,7 +73,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		firstDayOfWeek: 1,
 		...options,
 		date: stateDate,
-		onDateChange: date => handleDateChange(date),
+		// onDateChange: date => handleDateChange(date),
 		focused: open,
 		onFocusChange: ({ focused }) => {
 			if (!useTimepicker || focused) {
@@ -89,73 +90,54 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 
 	return (
 		<>
-			<Popup
-				style={{ padding: 0 }}
-				position="bottom center"
-				flowing
-				disabled={disabled}
-				trigger={(
-					<TriggerTW
-						onlyInput={onlyInput}
-						selection={selection}
-						asInput={asInput}
-						clearable={clearable}
-						disabled={disabled}
-						required={required}
-						date={stateDate}
-						label={label}
-						placeholder={placeholder}
-						onClear={handleClear}
-						outputFormat={outputFormat}
-						size={triggerSize}
-						style={triggerStyle}
-						{...rest}
-					/>
-				)}
-				on="click"
-				size="mini"
-				open={open}
-				onOpen={() => toggleOpen(true)}
-				onClose={() => {
-					toggleOpen(false);
-				}}>
-				<Popup.Content>
-					<DayPickerSingleDateController {...pickerOptions} />
-
-					{useTimepicker && (
-						<div style={{ display: 'flex', paddingBottom: 15, alignItems: 'center', justifyContent: 'center' }}>
-							<Dropdown
-								selection
-								scrolling
-								options={range(0, 24).map(hour => {
-									const tmp = stateDate.clone().hours(hour);
-									hour = hour.toString().padStart(2, '0');
-									return { key: hour, value: hour, text: hour, disabled: minDate ? tmp.isBefore(minDate) : false }
-								})}
-								selectOnBlur={false}
-								style={{ minWidth: 'auto' }}
-								value={stateDate.hours().toString().toString().padStart(2, '0')}
-								onChange={(e, { value }) => handleTimeChange(MODE.hours, value)}
-							/>
-							<span style={{ margin: '0 5px', fontWeight: 'bold', fontSize: 18 }}>:</span>
-							<Dropdown
-								selection
-								scrolling
-								options={range(0, 12).map(repetition => {
-									let minute = repetition * 5;
-									const tmp = stateDate.clone().minutes(minute);
-									minute = minute.toString().padStart(2, '0');
-									return { key: minute, value: minute, text: minute, disabled: minDate ? tmp.isBefore(minDate) : false }
-								})}
-								selectOnBlur={false}
-								style={{ minWidth: 'auto' }}
-								value={stateDate.minutes().toString().toString().padStart(2, '0')}
-								onChange={(e, { value }) => handleTimeChange(MODE.minutes, value)}
-							/>
-						</div>
+			<div className="tw-relative tw-w-full tw-max-w-sm tw-px-5">
+				<Popover className="tw-relative">
+					{({ open:isOpen }) => (
+						<>
+							<Popover.Button
+								className={`${isOpen ? '' : 'tw-text-opacity-90'}
+                tw-group tw-inline-flex tw-items-center tw-rounded-md tw-px-4 tw-py-2 tw-text-base
+                tw-font-medium tw-text-white hover:tw-text-opacity-100 focus:tw-outline-none focus-visible:tw-ring-1 focus-visible:tw-ring-white focus-visible:tw-ring-opacity-75`}
+							>
+								<TriggerTW
+									isOpen={isOpen}
+									onlyInput={onlyInput}
+									selection={selection}
+									asInput={asInput}
+									clearable={clearable}
+									disabled={disabled}
+									required={required}
+									date={stateDate}
+									label={label}
+									placeholder={placeholder}
+									onClear={handleClear}
+									outputFormat={outputFormat}
+									style={triggerStyle}
+									{...rest}
+								/>
+							</Popover.Button>
+							<Transition
+								as={Fragment}
+								enter="tw-transition tw-ease-out tw-duration-200"
+								enterFrom="tw-opacity-0 tw-translate-y-1"
+								enterTo="tw-opacity-100 tw-translate-y-0"
+								leave="tw-transition tw-ease-in tw-duration-150"
+								leaveFrom="tw-opacity-100 tw-translate-y-0"
+								leaveTo="tw-opacity-0 tw-translate-y-1"
+							>
+								<Popover.Panel
+									className="tw-absolute tw-left-1/2 tw-z-10 tw-mt-3 tw-w-screen tw-max-w-sm tw--translate-x-1/2 tw-transform tw-px-4 tw-px-2">
+									{({close}) => (
+										<div className="tw-overflow-hidden tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
+											<DayPickerSingleDateController {...pickerOptions } onDateChange={(date) => handleDateChange(date, close)} />
+										</div>
+									)}
+								</Popover.Panel>
+							</Transition>
+						</>
 					)}
-				</Popup.Content>
-			</Popup>
+				</Popover>
+			</div>
 		</>
 	);
 }
@@ -177,7 +159,6 @@ SingleDatePickerTW.propTypes = {
 	options: PropTypes.shape(omit(SingleDatePickerShape, ['onDateChange', 'onFocusChange', 'id'])),
 	outputFormat: PropTypes.string,
 	valueFormat: PropTypes.string,
-	size: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']),
 	triggerStyle: PropTypes.object,
 	useTimepicker: PropTypes.bool,
 };
@@ -199,7 +180,6 @@ SingleDatePickerTW.defaultProps = {
 	options: {},
 	outputFormat: DATE_FORMAT,
 	valueFormat: DATE_FORMAT_NORMAL,
-	triggerSize: null,
 	triggerStyle: {},
 	useTimepicker: false,
 };

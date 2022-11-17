@@ -1,5 +1,5 @@
 import React from 'react';
-import {SingleDatePicker, SingleDatePickerTW, TestDiv} from 'date-picker';
+import {SingleDatePicker, SingleDatePickerTW} from 'date-picker';
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
 				onClear={() => {
 
 				}}
+				// asInput
 			/>
 
 			<SingleDatePickerTW
@@ -22,9 +23,8 @@ function App() {
 				onClear={() => {
 
 				}}
+				// asInput
 			/>
-
-			<TestDiv />
 		</div>
 
 	);
