@@ -75,7 +75,7 @@ function findActiveRange(allowSingleDay, futureRanges, startDate, endDate, forma
 }
 
 function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, clearable, disabled, label, placeholder, onChange, onClear, defaultStartDate, defaultEndDate, startDate, endDate, options, outputFormat, valueFormat, triggerSize, triggerStyle }) {
-  const [open, toggleOpen] = useState(false);
+  const [open, toggleOpen] = useState(false); // TODO: remove after implementing headless
   const [dates, setDates] = useState({ startDate: formatDate(startDate ?? defaultStartDate, valueFormat), endDate: formatDate(endDate ?? defaultEndDate, valueFormat) });
   const [tempDates, setTempDates] = useState({ startDate: formatDate(startDate ?? defaultStartDate, valueFormat), endDate: formatDate(endDate ?? defaultEndDate, valueFormat) });
   const [focusedInput, setFocusedInput] = useState('startDate');

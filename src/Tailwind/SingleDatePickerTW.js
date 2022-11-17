@@ -78,24 +78,41 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		};
 	}
 
-	const hourOptions = range(0, 24).map(hour => {
-		const tmp = stateDate.clone().hours(hour);
-		hour = hour.toString().padStart(2, '0');
-		return { key: hour, value: hour, text: hour, disabled: minDate ? tmp.isBefore(minDate) : false }
-	})
+	let hourOptions = []
+	let minuteOptions = []
 
-	const minuteOptions = range(0, 12).map(repetition => {
-		let minute = repetition * 5;
-		const tmp = stateDate.clone().minutes(minute);
-		minute = minute.toString().padStart(2, '0');
-		return { key: minute, value: minute, text: minute, disabled: minDate ? tmp.isBefore(minDate) : false }
-	})
+	if (useTimepicker) {
+		hourOptions = range(0, 24).map(hour => {
+			let disabled = false
+			if (minDate) {
+				console.log({minDate})
+				const tmp = stateDate.clone().hours(hour);
+				disabled = tmp.isBefore(minDate)
+			}
+
+			hour = hour.toString().padStart(2, '0');
+			return { key: hour, value: hour, text: hour, disabled }
+		})
+
+		minuteOptions = range(0, 12).map(repetition => {
+			let minute = repetition * 5;
+			let disabled = false
+			if (minDate) {
+				const tmp = stateDate.clone().hours(minute);
+				disabled = tmp.isBefore(minDate)
+			}
+
+			minute = minute.toString().padStart(2, '0');
+			return { key: minute, value: minute, text: minute, disabled }
+		})
+	}
+
 
 	const TimePicker = ({onClose}) => {
 		return (
 			<div className='tw-relative tw-flex tw-pb-3 tw-items-center tw-justify-center'>
 				<Listbox
-					value={stateDate.hours().toString().toString().padStart(2, '0')}
+					value={stateDate ? stateDate.hours().toString().toString().padStart(2, '0') : '00'}
 					onChange={(value) => {
 						handleTimeChange(MODE.hours, value)
 					}}
@@ -106,7 +123,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 							focus:tw-outline-none focus-visible:tw-border-indigo-500 focus-visible:tw-ring-2 focus-visible:tw-ring-white
 							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 sm:tw-text-sm"
 						>
-							<span className="tw-block tw-text-lg">{stateDate.hours()}</span>
+							<span className="tw-block tw-text-lg">{stateDate ? stateDate.hours() : '00'}</span>
 							<span className="tw-pointer-events-none tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-2">
 								{/*ChevronDown*/}
 								<svg
@@ -166,7 +183,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 				<span className='tw-mt-0 tw-mb-[5] tw-mx-3 tw-font-semibold tw-text-lg'>:</span>
 
 				<Listbox
-					value={stateDate.minutes().toString().toString().padStart(2, '0')}
+					value={stateDate ? stateDate.minutes().toString().toString().padStart(2, '0') : '00'}
 					onChange={(value) => {
 						handleTimeChange(MODE.minutes, value, onClose)
 					}}
@@ -177,7 +194,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 							focus:tw-outline-none focus-visible:tw-border-indigo-500 focus-visible:tw-ring-2 focus-visible:tw-ring-white
 							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 sm:tw-text-sm"
 						>
-							<span className="tw-block tw-text-lg">{stateDate.minutes()}</span>
+							<span className="tw-block tw-text-lg">{stateDate ? stateDate.minutes() : '00'}</span>
 							<span className="tw-pointer-events-none tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-2">
 								{/*ChevronDown*/}
 								<svg
