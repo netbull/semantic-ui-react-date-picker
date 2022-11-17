@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {SingleDatePicker, SingleDatePickerTW} from 'date-picker';
 
 function App() {
-	const [date, setDate] = useState(null)
+	const [date, setDate] = useState('2022-11-20 12:45')
+
   return (
 		<div style={{marginLeft: '80px'}}>
 			<SingleDatePicker
@@ -15,8 +16,9 @@ function App() {
 				date={date}
 				// clearable
 				// onlyInput
-				asInput
-				label='some date'
+				// asInput
+				// label='some date'
+				useTimepicker
 			/>
 
 			<SingleDatePickerTW
@@ -29,8 +31,9 @@ function App() {
 				date={date}
 				// onlyInput
 				// clearable
-				asInput
-				label='some date'
+				// asInput
+				// label='some date'
+				useTimepicker
 			/>
 		</div>
 

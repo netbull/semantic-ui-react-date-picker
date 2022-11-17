@@ -1,9 +1,10 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import * as PropTypes from 'prop-types';
 import {DayPickerSingleDateController, SingleDatePickerShape} from 'react-dates';
-import { Popover, Transition } from '@headlessui/react'
+import { Popover, Transition, Listbox } from '@headlessui/react'
 import moment from 'moment';
 import omit from 'lodash/omit';
+import range from 'lodash/range';
 
 import { DATE_FORMAT_NORMAL, DATE_FORMAT, TIME_FORMAT, MODE } from '../constants';
 import { formatDate } from '../utils';
@@ -88,6 +89,165 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		};
 	}
 
+	const hourOptions = range(0, 24).map(hour => {
+		const tmp = stateDate.clone().hours(hour);
+		hour = hour.toString().padStart(2, '0');
+		return { key: hour, value: hour, text: hour, disabled: minDate ? tmp.isBefore(minDate) : false }
+	})
+
+	const minuteOptions = range(0, 12).map(repetition => {
+		let minute = repetition * 5;
+		const tmp = stateDate.clone().minutes(minute);
+		minute = minute.toString().padStart(2, '0');
+		return { key: minute, value: minute, text: minute, disabled: minDate ? tmp.isBefore(minDate) : false }
+	})
+
+	const TimePicker = () => {
+		return (
+			<div className='tw-relative tw-flex tw-pb-3 tw-items-center tw-justify-center'>
+				<Listbox
+					value={stateDate.hours().toString().toString().padStart(2, '0')}
+					onChange={(value) => {
+						handleTimeChange(MODE.hours, value)
+					}}
+				>
+					<div className="tw-relative tw-mt-1">
+						<Listbox.Button
+							className="tw-relative tw-w-full tw-cursor-default tw-rounded-lg tw-bg-white tw-py-2 tw-pl-3 tw-pr-10 tw-text-left tw-shadow-md
+							focus:tw-outline-none focus-visible:tw-border-indigo-500 focus-visible:tw-ring-2 focus-visible:tw-ring-white
+							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 sm:tw-text-sm"
+						>
+							<span className="tw-block tw-text-lg">{stateDate.hours()}</span>
+							<span className="tw-pointer-events-none tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-2">
+								{/*ChevronDown*/}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none" viewBox="0 0 24 24"
+									strokeWidth="1.5"
+									stroke="currentColor"
+									className="tw-w-5 tw-h-5"
+								>
+									<path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+								</svg>
+            </span>
+						</Listbox.Button>
+
+						<Listbox.Options
+							className="tw-fixed tw-mt-1 tw-max-h-48 tw-overflow-auto tw-rounded-md tw-bg-white tw-py-1
+							tw-text-base tw-shadow-lg tw-ring-1 tw-ring-black tw-ring-opacity-5 focus:tw-outline-none sm:tw-text-sm"
+						>
+						{hourOptions.map((hour) => (
+							<Listbox.Option
+								key={hour.key}
+								value={hour.value}
+								disabled={hour.disabled}
+								className={({ active }) => `tw-relative tw-w-full tw-cursor-default tw-select-none tw-py-2 tw-pl-10 tw-pr-4
+								${active ? 'tw-bg-amber-100 tw-text-amber-900' : 'tw-text-gray-900'}`}
+							>
+								{({ selected }) => (
+									<>
+										<span
+											className={`tw-block tw-text-lg ${selected ? 'tw-font-semibold' : 'tw-font-normal'}`}
+										>
+											{hour.text}
+										</span>
+										{selected ? (
+											<span className="tw-absolute tw-inset-y-0 tw-left-0 tw-flex tw-items-center tw-pl-3 tw-text-amber-600">
+												{/*Check Icon*/}
+                      	<svg
+													xmlns="http://www.w3.org/2000/svg"
+													fill="none"
+													viewBox="0 0 24 24"
+													strokeWidth="1.5"
+													stroke="currentColor"
+													className="tw-w-5 tw-h-5"
+												>
+  												<path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+												</svg>
+											</span>
+										) : null}
+									</>
+								)}
+							</Listbox.Option>
+						))}
+					</Listbox.Options>
+					</div>
+				</Listbox>
+
+				<span className='tw-mt-0 tw-mb-[5] tw-mx-3 tw-font-semibold tw-text-lg'>:</span>
+
+				<Listbox
+					value={stateDate.minutes().toString().toString().padStart(2, '0')}
+					onChange={(value) => {
+						handleTimeChange(MODE.minutes, value)
+					}}
+				>
+					<div className="tw-relative tw-mt-1">
+						<Listbox.Button
+							className="tw-relative tw-w-full tw-cursor-default tw-rounded-lg tw-bg-white tw-py-2 tw-pl-3 tw-pr-10 tw-text-left tw-shadow-md
+							focus:tw-outline-none focus-visible:tw-border-indigo-500 focus-visible:tw-ring-2 focus-visible:tw-ring-white
+							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 sm:tw-text-sm"
+						>
+							<span className="tw-block tw-text-lg">{stateDate.minutes()}</span>
+							<span className="tw-pointer-events-none tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-2">
+								{/*ChevronDown*/}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none" viewBox="0 0 24 24"
+									strokeWidth="1.5"
+									stroke="currentColor"
+									className="tw-w-5 tw-h-5"
+								>
+									<path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+								</svg>
+            </span>
+						</Listbox.Button>
+
+						<Listbox.Options
+							className="tw-fixed tw-mt-1 tw-max-h-48 tw-overflow-auto tw-rounded-md tw-bg-white tw-py-1
+							tw-text-base tw-shadow-lg tw-ring-1 tw-ring-black tw-ring-opacity-5 focus:tw-outline-none sm:tw-text-sm"
+						>
+							{minuteOptions.map((minute) => (
+								<Listbox.Option
+									key={minute.key}
+									value={minute.value}
+									disabled={minute.disabled}
+									className={({ active }) => `tw-relative tw-w-full tw-cursor-default tw-select-none tw-py-2 tw-pl-10 tw-pr-4
+								${active ? 'tw-bg-amber-100 tw-text-amber-900' : 'tw-text-gray-900'}`}
+								>
+									{({ selected }) => (
+										<>
+										<span
+											className={`tw-block tw-text-lg ${selected ? 'tw-font-semibold' : 'tw-font-normal'}`}
+										>
+											{minute.text}
+										</span>
+											{selected ? (
+												<span className="tw-absolute tw-inset-y-0 tw-left-0 tw-flex tw-items-center tw-pl-3 tw-text-amber-600">
+												{/*Check Icon*/}
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														fill="none"
+														viewBox="0 0 24 24"
+														strokeWidth="1.5"
+														stroke="currentColor"
+														className="tw-w-5 tw-h-5"
+													>
+  												<path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+												</svg>
+											</span>
+											) : null}
+										</>
+									)}
+								</Listbox.Option>
+							))}
+						</Listbox.Options>
+					</div>
+				</Listbox>
+			</div>
+		)
+	}
+
 	return (
 		<>
 			<div className="tw-relative tw-w-full tw-max-w-sm tw-px-5">
@@ -129,8 +289,10 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 								<Popover.Panel
 									className="tw-absolute tw-left-1/2 tw-z-10 tw-mt-3 tw-w-screen tw-max-w-sm tw--translate-x-1/2 tw-transform tw-px-4 tw-px-2">
 									{({close}) => (
-										<div className="tw-overflow-hidden tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
+										<div className="tw-overflow-hidden  tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
 											<DayPickerSingleDateController {...pickerOptions } onDateChange={(date) => handleDateChange(date, close)} />
+
+											{useTimepicker && <TimePicker />}
 										</div>
 									)}
 								</Popover.Panel>
