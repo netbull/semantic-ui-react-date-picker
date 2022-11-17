@@ -18,8 +18,6 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		outputFormat = `${outputFormat} ${TIME_FORMAT}`;
 	}
 	minDate = formatDate(minDate, valueFormat);
-
-	const [open, toggleOpen] = useState(false);
 	const [stateDate, setStateDate] = useState(formatDate(date, valueFormat));
 
 	useEffect(() => {
@@ -28,7 +26,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 
 	function handleDateChange(newDate, close) {
 		if (!useTimepicker) {
-			toggleOpen(false);
+			close()
 		}
 
 		if (stateDate) {
@@ -45,14 +43,10 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 			setStateDate(newDate);
 		}
 		onChange(newDate.format(valueFormat));
-		if (!useTimepicker) {
-			close()
-		}
 	}
 
-	function handleTimeChange(mode, value, close) {
+	function handleTimeChange(mode, value, close = null) {
 		if (mode === MODE.minutes) {
-			toggleOpen(false);
 			close()
 		}
 
@@ -64,7 +58,6 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 	}
 
 	function handleClear() {
-		toggleOpen(false);
 		if (syncValue) {
 			setStateDate(null);
 		}
@@ -77,13 +70,6 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		firstDayOfWeek: 1,
 		...options,
 		date: stateDate,
-		// onDateChange: date => handleDateChange(date),
-		focused: open,
-		onFocusChange: ({ focused }) => {
-			if (!useTimepicker || focused) {
-				toggleOpen(focused);
-			}
-		},
 	};
 
 	if (minDate) {
@@ -255,7 +241,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		<>
 			<div className="tw-relative tw-w-full tw-max-w-sm tw-px-5">
 				<Popover className="tw-relative">
-					{({ open:isOpen }) => (
+					{({ open: isOpen }) => (
 						<>
 							<Popover.Button
 								className={`${isOpen ? '' : 'tw-text-opacity-90'}
@@ -322,7 +308,7 @@ SingleDatePickerTW.propTypes = {
 	onClear: PropTypes.func,
 	date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(moment)]),
 	minDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(moment)]),
-	options: PropTypes.shape(omit(SingleDatePickerShape, ['onDateChange', 'onFocusChange', 'id'])),
+	options: PropTypes.shape(omit(SingleDatePickerShape, ['onDateChange', 'id'])),
 	outputFormat: PropTypes.string,
 	valueFormat: PropTypes.string,
 	triggerStyle: PropTypes.object,

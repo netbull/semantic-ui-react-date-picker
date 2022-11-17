@@ -1,26 +1,11 @@
 import React, {useState} from 'react';
-import {SingleDatePicker, SingleDatePickerTW} from 'date-picker';
+import {DateRangePickerTW, SingleDatePickerTW} from 'date-picker';
 
 function App() {
 	const [date, setDate] = useState('2022-11-20 12:45')
 
   return (
-		<div style={{marginLeft: '80px'}}>
-			<SingleDatePicker
-				selection
-				onChange={(startDate, endDate) => {
-					console.log(startDate, endDate);
-					setDate(startDate)
-				}}
-				onClear={() => setDate(null)}
-				date={date}
-				// clearable
-				// onlyInput
-				// asInput
-				// label='some date'
-				useTimepicker
-			/>
-
+		<div>
 			<SingleDatePickerTW
 				selection
 				onChange={(startDate, endDate) => {
@@ -35,6 +20,9 @@ function App() {
 				// label='some date'
 				useTimepicker
 			/>
+
+			{/*<DateRangePickerTW />*/}
+
 		</div>
 
 	);
