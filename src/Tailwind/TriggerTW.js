@@ -19,7 +19,7 @@ function TriggerTW({ isOpen, dates, date, selection, asInput, onlyInput, clearab
 	}
 
 	const input = (
-		<div className='tw-border tw-rounded tw-text-gray-400 tw-p-3'>
+		<div className='tw-border tw-rounded tw-text-gray-500 tw-p-3'>
 			<input
 				type="text"
 				{...rest}
@@ -49,7 +49,7 @@ function TriggerTW({ isOpen, dates, date, selection, asInput, onlyInput, clearab
 		return onlyInput
 			? input
 			: (
-				<div style={style}>
+				<div className={'tw-gap-2 tw-flex tw-items-center tw-text-gray-600'} style={style}>
 					{label && <label>{label}</label>}
 					{input}
 				</div>
@@ -58,7 +58,7 @@ function TriggerTW({ isOpen, dates, date, selection, asInput, onlyInput, clearab
 
 	return (
 		<div
-			className='tw-flex tw-border tw-font-semibold tw-text-gray-900 tw-p-3  tw-items-center tw-gap-2 tw-rounded'
+			className={`tw-flex tw-font-semibold tw-text-gray-900 tw-p-3 tw-items-center tw-gap-2 tw-rounded ${selection ? 'tw-border' : ''}`}
 			style={style}
 			{...rest}
 		>

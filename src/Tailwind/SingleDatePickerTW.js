@@ -97,7 +97,8 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 							<Popover.Button
 								className={`${isOpen ? '' : 'tw-text-opacity-90'}
                 tw-group tw-inline-flex tw-items-center tw-rounded-md tw-px-4 tw-py-2 tw-text-base
-                tw-font-medium tw-text-white hover:tw-text-opacity-100 focus:tw-outline-none focus-visible:tw-ring-1 focus-visible:tw-ring-white focus-visible:tw-ring-opacity-75`}
+                tw-font-medium tw-text-white hover:tw-text-opacity-100 focus:tw-outline-none
+                focus-visible:tw-ring-1 focus-visible:tw-ring-white focus-visible:tw-ring-opacity-75`}
 							>
 								<TriggerTW
 									isOpen={isOpen}
