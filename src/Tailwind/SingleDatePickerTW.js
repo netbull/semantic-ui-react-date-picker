@@ -45,12 +45,15 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 			setStateDate(newDate);
 		}
 		onChange(newDate.format(valueFormat));
-		close()
+		if (!useTimepicker) {
+			close()
+		}
 	}
 
-	function handleTimeChange(mode, value) {
+	function handleTimeChange(mode, value, close) {
 		if (mode === MODE.minutes) {
 			toggleOpen(false);
+			close()
 		}
 
 		const newDate = stateDate[mode](parseInt(value, 10));
@@ -102,7 +105,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		return { key: minute, value: minute, text: minute, disabled: minDate ? tmp.isBefore(minDate) : false }
 	})
 
-	const TimePicker = () => {
+	const TimePicker = ({onClose}) => {
 		return (
 			<div className='tw-relative tw-flex tw-pb-3 tw-items-center tw-justify-center'>
 				<Listbox
@@ -179,7 +182,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 				<Listbox
 					value={stateDate.minutes().toString().toString().padStart(2, '0')}
 					onChange={(value) => {
-						handleTimeChange(MODE.minutes, value)
+						handleTimeChange(MODE.minutes, value, onClose)
 					}}
 				>
 					<div className="tw-relative tw-mt-1">
@@ -292,7 +295,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 										<div className="tw-overflow-hidden  tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
 											<DayPickerSingleDateController {...pickerOptions } onDateChange={(date) => handleDateChange(date, close)} />
 
-											{useTimepicker && <TimePicker />}
+											{useTimepicker && <TimePicker onClose={close}/>}
 										</div>
 									)}
 								</Popover.Panel>
