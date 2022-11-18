@@ -2,11 +2,11 @@ import React, {useState, useEffect, Fragment} from 'react';
 import * as PropTypes from 'prop-types';
 import moment from 'moment';
 import {DateRangePickerShape, DayPickerRangeController} from 'react-dates';
-import { Popover, Transition, Menu } from '@headlessui/react'
+import { Popover, Transition } from '@headlessui/react'
 
 import omit from 'lodash/omit';
 
-import { formatDate } from '../utils';
+import {formatDate, useWindowSize} from '../utils';
 import { DATE_FORMAT, DATE_FORMAT_NORMAL } from '../constants';
 import TriggerTW from '../Tailwind/TriggerTW';
 
@@ -75,8 +75,10 @@ function findActiveRange(allowSingleDay, futureRanges, startDate, endDate, forma
   return match;
 }
 
-function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, clearable, disabled, label, placeholder, onChange, onClear, defaultStartDate, defaultEndDate, startDate, endDate, options, outputFormat, valueFormat }) {
-  const [dates, setDates] = useState(
+function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, clearable, disabled, label, placeholder, onChange, onClear, defaultStartDate, defaultEndDate, startDate, endDate, options, outputFormat, valueFormat}) {
+	const isMobile = useWindowSize()
+
+	const [dates, setDates] = useState(
 		{ startDate: formatDate(startDate ?? defaultStartDate, valueFormat),
 			endDate: formatDate(endDate ?? defaultEndDate, valueFormat) }
 	);
@@ -123,14 +125,14 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 		const ranges = getRanges(allowSingleDay, futureRanges);
 		return (
 			<ul
-				className={`tw-w-40 tw-flex tw-flex-col tw-text-md tw-font-medium tw-text-gray-800 tw-bg-white tw-border-gray-200 tw-p-3
-				${standalone ? 'tw-border tw-rounded' : 'tw-border-r'}`}
+				className={`tw-flex tw-text-md tw-font-medium tw-text-gray-800 tw-bg-white tw-border-gray-200 tw-p-3
+				${standalone ? 'tw-border tw-rounded tw-flex-col tw-w-40' : 'tw-w-full lg:tw-w-40 lg:tw-flex-wrap tw-border-b tw-flex-row lg:tw-flex-col lg:tw-border-r tw-flex-wrap'}`}
 			>
 				{Object.keys(ranges).map(range => {
 					const isActive = activeRange === range;
 					return (
 						<li
-							className={`tw-flex tw-justify-center tw-rounded-lg tw-py-1 tw-m-1 tw-px-2 ${isActive ? 'tw-bg-slate-300' : 'tw-cursor-pointer hover:tw-bg-slate-100'}`}
+							className={`tw-flex tw-justify-center tw-rounded-lg tw-py-1 tw-m-1 tw-px-2 ${isActive ? 'tw-bg-slate-300' : 'tw-bg-slate-50 tw-cursor-pointer hover:tw-bg-slate-200'}`}
 							key={`range-${range}`}
 							onClick={() => {
 								if (!isActive) {
@@ -145,7 +147,7 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 					);
 				})}
 				<li
-					className={`tw-flex tw-justify-center tw-rounded-lg tw-py-1 tw-m-1 tw-px-2 ${activeRange === 'Custom' ? 'tw-bg-slate-300 ' : 'tw-cursor-pointer hover:tw-bg-slate-100'}`}
+					className={`tw-flex tw-justify-center tw-rounded-lg tw-py-1 tw-m-1 tw-px-2 ${activeRange === 'Custom' ? 'tw-bg-slate-300' : 'tw-bg-slate-50 tw-cursor-pointer hover:tw-bg-slate-200'}`}
 					onClick={() => {
 						if (activeRange !== 'Custom') {
 							setActiveRange('Custom')
@@ -219,11 +221,13 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 								return !isCustomRange
 									? <RangeMenu close={close} standalone />
 									: (
-										<div className="tw-flex tw-overflow-auto tw-w-full tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
+										<div className="tw-flex tw-flex-col lg:tw-flex-row tw-overflow-auto tw-w-full tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
 											<RangeMenu close={close} />
 											<div className='tw-flex tw-flex-col'>
 												<DayPickerRangeController
 													{...pickerOptions }
+													numberOfMonths={isMobile ? 1 : 2}
+													// orientation='vertical'
 													onDatesChange={(dates) => {setTempDates(dates)}}
 												/>
 												<div className='tw-flex tw-gap-2 tw-items-center tw-p-3 tw-justify-end'>
@@ -257,8 +261,6 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 													)}
 												</div>
 											</div>
-
-
 										</div>
 									)
 							}}

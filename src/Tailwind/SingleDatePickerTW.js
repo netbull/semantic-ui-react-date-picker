@@ -121,7 +121,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 						<Listbox.Button
 							className="tw-relative tw-w-full tw-cursor-default tw-rounded-lg tw-bg-white tw-py-2 tw-pl-3 tw-pr-10 tw-text-left tw-shadow-md
 							focus:tw-outline-none focus-visible:tw-border-indigo-500 focus-visible:tw-ring-2 focus-visible:tw-ring-white
-							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 sm:tw-text-sm"
+							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 lg:tw-text-sm"
 						>
 							<span className="tw-block tw-text-lg">{stateDate ? stateDate.hours() : '00'}</span>
 							<span className="tw-pointer-events-none tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-2">
@@ -140,7 +140,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 
 						<Listbox.Options
 							className="tw-fixed tw-mt-1 tw-max-h-48 tw-overflow-auto tw-rounded-md tw-bg-white tw-py-1
-							tw-text-base tw-shadow-lg tw-ring-1 tw-ring-black tw-ring-opacity-5 focus:tw-outline-none sm:tw-text-sm"
+							tw-text-base tw-shadow-lg tw-ring-1 tw-ring-black tw-ring-opacity-5 focus:tw-outline-none lg:tw-text-sm"
 						>
 						{hourOptions.map((hour) => (
 							<Listbox.Option
@@ -192,7 +192,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 						<Listbox.Button
 							className="tw-relative tw-w-full tw-cursor-default tw-rounded-lg tw-bg-white tw-py-2 tw-pl-3 tw-pr-10 tw-text-left tw-shadow-md
 							focus:tw-outline-none focus-visible:tw-border-indigo-500 focus-visible:tw-ring-2 focus-visible:tw-ring-white
-							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 sm:tw-text-sm"
+							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 lg:tw-text-sm"
 						>
 							<span className="tw-block tw-text-lg">{stateDate ? stateDate.minutes() : '00'}</span>
 							<span className="tw-pointer-events-none tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-2">
@@ -211,7 +211,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 
 						<Listbox.Options
 							className="tw-fixed tw-mt-1 tw-max-h-48 tw-overflow-auto tw-rounded-md tw-bg-white tw-py-1
-							tw-text-base tw-shadow-lg tw-ring-1 tw-ring-black tw-ring-opacity-5 focus:tw-outline-none sm:tw-text-sm"
+							tw-text-base tw-shadow-lg tw-ring-1 tw-ring-black tw-ring-opacity-5 focus:tw-outline-none lg:tw-text-sm"
 						>
 							{minuteOptions.map((minute) => (
 								<Listbox.Option
