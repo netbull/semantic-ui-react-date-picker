@@ -19,7 +19,7 @@ function TriggerTW({ isOpen, dates, date, selection, asInput, onlyInput, clearab
 	}
 
 	const input = (
-		<div className='tw-border tw-rounded tw-text-gray-500 tw-p-3 '>
+		<div className='tw-border tw-rounded tw-text-gray-500 tw-p-3'>
 			<input
 				type="text"
 				{...rest}

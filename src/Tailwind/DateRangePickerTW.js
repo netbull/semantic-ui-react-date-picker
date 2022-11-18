@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import * as PropTypes from 'prop-types';
 import moment from 'moment';
-import { DayPickerRangeController, DateRangePickerShape } from 'react-dates';
-import { Popup, Grid, Menu, Button } from 'semantic-ui-react';
+import {DateRangePickerShape, DayPickerRangeController} from 'react-dates';
+import { Popover, Transition, Menu } from '@headlessui/react'
+
 import omit from 'lodash/omit';
 
 import { formatDate } from '../utils';
@@ -74,15 +75,19 @@ function findActiveRange(allowSingleDay, futureRanges, startDate, endDate, forma
   return match;
 }
 
-function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, clearable, disabled, label, placeholder, onChange, onClear, defaultStartDate, defaultEndDate, startDate, endDate, options, outputFormat, valueFormat, triggerSize, triggerStyle }) {
-  const [open, toggleOpen] = useState(false); // TODO: remove after implementing headless
-  const [dates, setDates] = useState({ startDate: formatDate(startDate ?? defaultStartDate, valueFormat), endDate: formatDate(endDate ?? defaultEndDate, valueFormat) });
-  const [tempDates, setTempDates] = useState({ startDate: formatDate(startDate ?? defaultStartDate, valueFormat), endDate: formatDate(endDate ?? defaultEndDate, valueFormat) });
+function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, clearable, disabled, label, placeholder, onChange, onClear, defaultStartDate, defaultEndDate, startDate, endDate, options, outputFormat, valueFormat }) {
+  const [dates, setDates] = useState(
+		{ startDate: formatDate(startDate ?? defaultStartDate, valueFormat),
+			endDate: formatDate(endDate ?? defaultEndDate, valueFormat) }
+	);
+  const [tempDates, setTempDates] = useState(
+		{ startDate: formatDate(startDate ?? defaultStartDate, valueFormat),
+			endDate: formatDate(endDate ?? defaultEndDate, valueFormat) }
+	);
   const [focusedInput, setFocusedInput] = useState('startDate');
   const [activeRange, setActiveRange] = useState(findActiveRange(allowSingleDay, futureRanges, startDate, endDate, valueFormat));
 
   const isCustomRange = activeRange === 'Custom';
-
   useEffect(() => {
   	setDates({
 			startDate: formatDate(startDate, valueFormat),
@@ -90,18 +95,17 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 		});
 	}, [startDate, endDate]);
 
-  function handleChange(startDate, endDate) {
-    toggleOpen(false);
-    if (typeof defaultStartDate !== 'undefined' && !startDate && typeof defaultEndDate !== 'undefined' && !endDate) {
+	function handleChange(startDate, endDate) {
+		if (typeof defaultStartDate !== 'undefined' && !startDate && typeof defaultEndDate !== 'undefined' && !endDate) {
 			setDates({
 				startDate,
 				endDate,
 			});
 		}
-    onChange(startDate.format(valueFormat), endDate.format(valueFormat));
-  }
+		onChange(startDate.format(valueFormat), endDate.format(valueFormat));
+	}
+
   function handleClear() {
-    toggleOpen(false);
 		if (typeof defaultStartDate !== 'undefined' && !startDate && typeof defaultEndDate !== 'undefined' && !endDate) {
 			setDates({
 				startDate: null,
@@ -115,34 +119,44 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
     onClear();
   }
 
-  function rangeMenu() {
-    const ranges = getRanges(allowSingleDay, futureRanges);
-    return (
-      <Menu secondary vertical fluid style={{ margin: 0, textAlign: 'center' }}>
-        {Object.keys(ranges).map(range => {
-          const isActive = activeRange === range;
-          return (
-            <Menu.Item
-              key={`range-${range}`}
-              name={range}
-              active={isActive}
-              onClick={() => {
-                if (!isActive) {
-                  setActiveRange(range);
-                  handleChange(ranges[range][0], ranges[range][1]);
-                }
-              }}
-            />
-          );
-        })}
-        <Menu.Item
-          name="Custom"
-          active={activeRange === "Custom"}
-          onClick={() => setActiveRange('Custom')}
-        />
-      </Menu>
-    );
-  }
+	const RangeMenu = ({close, standalone = false}) => {
+		const ranges = getRanges(allowSingleDay, futureRanges);
+		return (
+			<ul
+				className={`tw-w-40 tw-flex tw-flex-col tw-text-md tw-font-medium tw-text-gray-800 tw-bg-white tw-border-gray-200 tw-p-3
+				${standalone ? 'tw-border tw-rounded' : 'tw-border-r'}`}
+			>
+				{Object.keys(ranges).map(range => {
+					const isActive = activeRange === range;
+					return (
+						<li
+							className={`tw-flex tw-justify-center tw-rounded-lg tw-py-1 tw-m-1 tw-px-2 ${isActive ? 'tw-bg-slate-300' : 'tw-cursor-pointer hover:tw-bg-slate-100'}`}
+							key={`range-${range}`}
+							onClick={() => {
+								if (!isActive) {
+									close()
+									setActiveRange(range);
+									handleChange(ranges[range][0], ranges[range][1]);
+								}
+							}}
+						>
+							{range}
+						</li>
+					);
+				})}
+				<li
+					className={`tw-flex tw-justify-center tw-rounded-lg tw-py-1 tw-m-1 tw-px-2 ${activeRange === 'Custom' ? 'tw-bg-slate-300 ' : 'tw-cursor-pointer hover:tw-bg-slate-100'}`}
+					onClick={() => {
+						if (activeRange !== 'Custom') {
+							setActiveRange('Custom')
+						}
+					}}
+				>
+					Custom
+				</li>
+			</ul>
+		);
+	}
 
   let tempDatesPlaceholder = null;
   if ((!clearable && tempDates.startDate && tempDates.endDate) || (clearable && tempDates.startDate)) {
@@ -160,101 +174,100 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 		...options,
 		startDate: tempDates.startDate,
 		endDate: tempDates.endDate,
-		onDatesChange: dates => setTempDates(dates),
-		focusedInput: focusedInput,
-		onFocusChange: newFocusedInput => setFocusedInput(newFocusedInput || 'startDate'),
+		// onDatesChange: dates => setTempDates(dates),
+		focusedInput: focusedInput, // TODO: remove after implementing headless
+		onFocusChange: newFocusedInput => setFocusedInput(newFocusedInput || 'startDate'), // TODO: remove after implementing headless
 	};
 
   return (
-    <>
-      <Popup
-				style={{ padding: 0 }}
-        position="bottom center"
-        flowing
-				disabled={disabled}
-        popperDependencies={[activeRange]}
-        trigger={(
-          <TriggerTW
-            selection={selection}
-            asInput={asInput}
-            clearable={clearable}
-						disabled={disabled}
-            dates={dates}
-            label={label}
-						placeholder={placeholder}
-            onClear={handleClear}
-						outputFormat={outputFormat}
-						size={triggerSize}
-						style={triggerStyle}
-          />
-        )}
-        on="click"
-        size="mini"
-        open={open}
-        onOpen={() => toggleOpen(true)}
-        onClose={() => {
-          toggleOpen(false);
-          if (isCustomRange && focusedInput === 'endDate') {
-            setTempDates({
-              ...dates,
-            });
-          }
-        }}>
-        <Popup.Content style={{ width: 'auto' }}>
-          {!isCustomRange ? rangeMenu() : (
-            <Grid centered divided style={{ margin: 0 }}>
-              <Grid.Row>
-                <Grid.Column textAlign="center" tablet="16" computer={isCustomRange ? 3 : 12}>
-                  {rangeMenu()}
-                </Grid.Column>
-                {isCustomRange && (
-                  <Grid.Column textAlign="center" tablet="16" computer="13">
-                    <DayPickerRangeController {...pickerOptions} />
+		<div className="tw-relative tw-w-full tw-max-w-sm tw-px-5">
+      <Popover className="tw-relative">
+				{({ open: isOpen }) => (
+				<>
+					<Popover.Button
+						className={`${isOpen ? '' : 'tw-text-opacity-90'}
+                tw-group tw-inline-flex tw-items-center tw-rounded-md tw-px-4 tw-py-2 tw-text-base
+                tw-font-medium tw-text-white hover:tw-text-opacity-100 focus:tw-outline-none
+                focus-visible:tw-ring-1 focus-visible:tw-ring-white focus-visible:tw-ring-opacity-75`}
+					>
+						<TriggerTW
+							isOpen={isOpen}
+							selection={selection}
+							asInput={asInput}
+							clearable={clearable}
+							disabled={disabled}
+							dates={dates}
+							label={label}
+							placeholder={placeholder}
+							onClear={handleClear}
+							outputFormat={outputFormat}
+						/>
+					</Popover.Button>
+					<Transition
+						as={Fragment}
+						enter="tw-transition tw-ease-out tw-duration-200"
+						enterFrom="tw-opacity-0 tw-translate-y-1"
+						enterTo="tw-opacity-100 tw-translate-y-0"
+						leave="tw-transition tw-ease-in tw-duration-150"
+						leaveFrom="tw-opacity-100 tw-translate-y-0"
+						leaveTo="tw-opacity-0 tw-translate-y-1"
+					>
+						<Popover.Panel
+							className="tw-absolute tw-left-1/2 tw-z-10 tw-mt-3 tw-w-fit tw--translate-x-1/2 tw-transform tw-px-4 tw-px-2"
+						>
+							{({close}) => {
+								return !isCustomRange
+									? <RangeMenu close={close} standalone />
+									: (
+										<div className="tw-flex tw-overflow-auto tw-w-full tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
+											<RangeMenu close={close} />
+											<div className='tw-flex tw-flex-col'>
+												<DayPickerRangeController
+													{...pickerOptions }
+													onDatesChange={(dates) => {setTempDates(dates)}}
+												/>
+												<div className='tw-flex tw-gap-2 tw-items-center tw-p-3 tw-justify-end'>
+													<div className='tw-font-medium'>
+														{tempDatesPlaceholder}
+													</div>
+													<button
+														type='button'
+														className='tw-bg-blue-300 tw-border tw-rounded tw-text-gray-800 tw-font-semibold tw-px-3 tw-py-2'
+														disabled={!tempDates.startDate || !tempDates.endDate}
+														onClick={() => {
+															close()
+															handleChange(tempDates.startDate, tempDates.endDate);
+														}}
+													>
+														Apply
+													</button>
+													{clearable && (tempDates.startDate || tempDates.endDate) && (
+														<button
+															type='button'
+															className='tw-bg-red-300 tw-border tw-rounded tw-text-gray-800 tw-font-semibold tw-px-3 tw-py-2'
+															onClick={() => {
+																close();
+																setTempDates({
+																	...dates,
+																});
+															}}
+														>
+															Cancel
+														</button>
+													)}
+												</div>
+											</div>
 
-                    <Button
-                      primary
-                      floated="right"
-                      size="mini"
-                      content="Apply"
-                      disabled={!tempDates.startDate || !tempDates.endDate}
-                      onClick={() => {
-                        handleChange(tempDates.startDate, tempDates.endDate);
-                      }}
-                    />
-                    {clearable && (tempDates.startDate || tempDates.endDate) && (
-                      <Button
-                        primary
-                        basic
-                        floated="right"
-                        size="mini"
-                        color="red"
-                        content="Cancel"
-                        onClick={() => {
-                          setTempDates({
-                            ...dates,
-                          });
-                          toggleOpen(false);
-                        }}
-                      />
-                    )}
-                    <div style={{
-                      float: 'right',
-                      marginRight: 10,
-                      fontSize: '1.2em',
-                      verticalAlign: 'middle',
-                      padding: '6px 0',
-                      fontWeight: 'bold',
-                    }}>
-                      {tempDatesPlaceholder}
-                    </div>
-                  </Grid.Column>
-                )}
-              </Grid.Row>
-            </Grid>
-          )}
-        </Popup.Content>
-      </Popup>
-    </>
+
+										</div>
+									)
+							}}
+						</Popover.Panel>
+					</Transition>
+				</>
+			)}
+			</Popover>
+		</div>
   );
 }
 
@@ -274,8 +287,6 @@ DateRangePickerTW.propTypes = {
   options: PropTypes.shape(omit(DateRangePickerShape, ['onDatesChange', 'onFocusChange', 'startDateId', 'endDateId'])),
 	outputFormat: PropTypes.string,
 	valueFormat: PropTypes.string,
-	triggerSize: PropTypes.oneOf(['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']),
-	triggerStyle: PropTypes.object,
 };
 
 DateRangePickerTW.defaultProps = {
@@ -294,8 +305,6 @@ DateRangePickerTW.defaultProps = {
 	options: {},
 	outputFormat: DATE_FORMAT,
 	valueFormat: DATE_FORMAT_NORMAL,
-	triggerSize: null,
-	triggerStyle: {},
 };
 
 export default DateRangePickerTW;
