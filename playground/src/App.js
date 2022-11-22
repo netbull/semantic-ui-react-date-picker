@@ -14,7 +14,7 @@ function App() {
 				onChange={value => setTime(value)}
 				onClear={() => setTime('10:40')}
 				// clearable
-				onlyInput
+				// onlyInput
 			/>
 
 			<TimePickerTW
@@ -22,7 +22,7 @@ function App() {
 				value={time}
 				onChange={value => setTime(value)}
 				onClear={() => setTime('10:40')}
-				onlyInput
+				// onlyInput
 			/>
 
 			{/*<SingleDatePicker*/}

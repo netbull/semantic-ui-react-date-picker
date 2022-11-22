@@ -6,7 +6,7 @@ import { formatTime } from '../ScrollTimePicker/utils';
 import {Popover, Transition} from "@headlessui/react";
 const today = new Date();
 
-function buildTable(mode, date, timeParts, callback, disabled, close) {
+function buildTable(mode, date, timeParts, callback, disabled, setIsShowing) {
 	const isHours = mode === MODE.hours;
 	const rows = isHours ? 6 : 4;
 	const columns = isHours ? 4 : 3;
@@ -31,7 +31,7 @@ function buildTable(mode, date, timeParts, callback, disabled, close) {
 					}}
 					onClick={() => {
 						if (mode === MODE.minutes) {
-							close();
+							setIsShowing(false)
 						}
 						callback(cellText);
 					}}
@@ -56,6 +56,7 @@ function buildTable(mode, date, timeParts, callback, disabled, close) {
 
 function TimePickerTW({ clearable, disabled, label, placeholder, value, onChange, onClear, noMargin, onlyInput, popupOpen, ...rest }) {
 	const [mode, setMode] = useState(MODE.hours);
+	const [isShowing, setIsShowing] = useState(false)
 
 	function handleClick(value) {
 		onChange(value);
@@ -71,7 +72,8 @@ function TimePickerTW({ clearable, disabled, label, placeholder, value, onChange
 	}
 
 	const Input = () => (
-		<div className='tw-flex tw-border tw-rounded tw-text-gray-500 tw-p-3 tw-font-semibold'>
+		<div
+			className='tw-flex tw-border tw-rounded tw-text-gray-500 tw-p-3 tw-font-semibold'>
 			<input
 				readOnly
 				type="text"
@@ -96,50 +98,54 @@ function TimePickerTW({ clearable, disabled, label, placeholder, value, onChange
 			)}
 		</div>
 	);
+	console.log({isShowing})
 
 	return (
 		<div className="tw-relative tw-p-2">
 			<Popover className="tw-relative">
-				{({ open: isOpen }) => (
-					<>
-						<Popover.Button
-							onBlur={() => {
-								setMode(MODE.hours);
-							}}
-							className={`${isOpen ? '' : 'tw-text-opacity-90'}
-                tw-group tw-inline-flex tw-items-center tw-rounded-md tw-px-4 tw-py-2 tw-text-base
-                tw-font-medium tw-text-white hover:tw-text-opacity-100 focus:tw-outline-none
-                focus-visible:tw-ring-1 focus-visible:tw-ring-white focus-visible:tw-ring-opacity-75`}
-						>
-							{onlyInput ? <Input /> : (
-								<div>
-									{label && <label>{label}</label>}
-									<Input />
+				<>
+					<Popover.Button
+						onBlur={() => {
+							console.log('Popover.Button blur')
+							setIsShowing(false)
+							setMode(MODE.hours);
+						}}
+						onClick={() => {
+							console.log('Popover.Button click')
+							setIsShowing(!isShowing)
+						}}
+						className={`${isShowing ? '' : 'tw-text-opacity-90'}
+							tw-group tw-inline-flex tw-items-center tw-rounded-md tw-px-4 tw-py-2 tw-text-base
+							tw-font-medium tw-text-white hover:tw-text-opacity-100 focus:tw-outline-none
+							focus-visible:tw-ring-1 focus-visible:tw-ring-white focus-visible:tw-ring-opacity-75`}
+					>
+						{onlyInput ? <Input /> : (
+							<div>
+								{label && <label>{label}</label>}
+								<Input />
+							</div>
+						)}
+					</Popover.Button>
+					<Transition
+						show={isShowing}
+						as={Fragment}
+						enter="tw-transition tw-ease-out tw-duration-200"
+						enterFrom="tw-opacity-0 tw-translate-y-1"
+						enterTo="tw-opacity-100 tw-translate-y-0"
+						leave="tw-transition tw-ease-in tw-duration-50"
+						leaveFrom="tw-opacity-100 tw-translate-y-0"
+						leaveTo="tw-opacity-0 tw-translate-y-1"
+					>
+						<Popover.Panel
+							className="tw-absolute tw-left-1/2 tw-z-10 tw-mt-3 tw-w-screen tw-max-w-sm tw--translate-x-1/2 tw-transform tw-px-4 tw-px-2">
+							{isShowing && (
+								<div className="tw-overflow-hidden tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
+									{buildTable(mode, date, timeParts, handleClick, disabled, setIsShowing)}
 								</div>
 							)}
-						</Popover.Button>
-						<Transition
-							as={Fragment}
-							enter="tw-transition tw-ease-out tw-duration-200"
-							enterFrom="tw-opacity-0 tw-translate-y-1"
-							enterTo="tw-opacity-100 tw-translate-y-0"
-							leave="tw-transition tw-ease-in tw-duration-50"
-							leaveFrom="tw-opacity-100 tw-translate-y-0"
-							leaveTo="tw-opacity-0 tw-translate-y-1"
-						>
-							{open && (
-								<Popover.Panel
-									className="tw-absolute tw-left-1/2 tw-z-10 tw-mt-3 tw-w-screen tw-max-w-sm tw--translate-x-1/2 tw-transform tw-px-4 tw-px-2">
-									{({close, open}) => (
-										<div className="tw-overflow-hidden tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
-											{open && buildTable(mode, date, timeParts, handleClick, disabled, close)}
-										</div>
-									)}
-								</Popover.Panel>
-							)}
-						</Transition>
-					</>
-				)}
+						</Popover.Panel>
+					</Transition>
+				</>
 			</Popover>
 		</ div>
 	)
