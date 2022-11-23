@@ -176,9 +176,8 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 		...options,
 		startDate: tempDates.startDate,
 		endDate: tempDates.endDate,
-		// onDatesChange: dates => setTempDates(dates),
-		focusedInput: focusedInput, // TODO: remove after implementing headless
-		onFocusChange: newFocusedInput => setFocusedInput(newFocusedInput || 'startDate'), // TODO: remove after implementing headless
+		focusedInput: focusedInput,
+		onFocusChange: newFocusedInput => setFocusedInput(newFocusedInput || 'startDate'),
 	};
 
   return (
@@ -227,7 +226,6 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 												<DayPickerRangeController
 													{...pickerOptions }
 													numberOfMonths={isMobile ? 1 : 2}
-													// orientation='vertical'
 													onDatesChange={(dates) => {setTempDates(dates)}}
 												/>
 												<div className='tw-flex tw-gap-2 tw-items-center tw-p-3 tw-justify-end'>
@@ -236,7 +234,7 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 													</div>
 													<button
 														type='button'
-														className='tw-bg-blue-300 tw-border tw-rounded tw-text-gray-800 tw-font-semibold tw-px-3 tw-py-2'
+														className='tw-bg-blue-400 tw-border tw-rounded tw-shadow-sm tw-text-gray-800 tw-font-semibold tw-px-3 tw-py-2'
 														disabled={!tempDates.startDate || !tempDates.endDate}
 														onClick={() => {
 															close()
@@ -248,7 +246,7 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 													{clearable && (tempDates.startDate || tempDates.endDate) && (
 														<button
 															type='button'
-															className='tw-bg-red-300 tw-border tw-rounded tw-text-gray-800 tw-font-semibold tw-px-3 tw-py-2'
+															className='tw-bg-red-400 tw-border tw-shadow-sm tw-rounded tw-text-gray-800 tw-font-semibold tw-px-3 tw-py-2'
 															onClick={() => {
 																close();
 																setTempDates({
