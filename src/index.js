@@ -10,7 +10,6 @@ import DateRangePickerTW from './Tailwind/DateRangePickerTW';
 import SingleDatePickerTW from './Tailwind/SingleDatePickerTW';
 import TimePickerTW from './Tailwind/TimePickerTW';
 
-import TestDiv from './TestDiv';
 
 export {
   DateRangePicker,
@@ -20,7 +19,5 @@ export {
 
 	DateRangePickerTW,
 	SingleDatePickerTW,
-	TimePickerTW,
-
-	TestDiv
+	TimePickerTW
 }

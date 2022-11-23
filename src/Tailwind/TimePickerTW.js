@@ -36,7 +36,7 @@ function buildTable(mode, date, timeParts, callback, disabled, setIsShowing) {
 						callback(cellText);
 					}}
 					key={`calendar-time-row-${r}-cell-${c}`}
-					className={`hover:tw-bg-gray-200 tw-py-2 tw-px-2 tw-border ${isActive ? 'tw-bg-gray-200'  : ''}`}>
+					className={`hover:tw-bg-gray-200 tw-py-2 tw-border ${isActive ? 'tw-bg-gray-200'  : ''}`}>
 					{cellText}
 				</td>
 			));
@@ -46,7 +46,7 @@ function buildTable(mode, date, timeParts, callback, disabled, setIsShowing) {
 
 	return (
 		<table
-			className='tw-w-full tw-text-md tw-text-center tw-text-gray-500'>
+			className='tw-w-full tw-text-md tw-text-center tw-text-gray-700'>
 			<tbody>
 				{tableRows}
 			</tbody>
@@ -73,7 +73,7 @@ function TimePickerTW({ clearable, disabled, label, placeholder, value, onChange
 
 	const Input = () => (
 		<div
-			className='tw-flex tw-border tw-rounded tw-text-gray-500 tw-p-3 tw-font-semibold'>
+			className='tw-flex tw-border tw-rounded tw-px-4 tw-py-3 tw-font-semibold tw-text-gray-900'>
 			<input
 				readOnly
 				type="text"
@@ -98,20 +98,16 @@ function TimePickerTW({ clearable, disabled, label, placeholder, value, onChange
 			)}
 		</div>
 	);
-	console.log({isShowing})
 
 	return (
-		<div className="tw-relative tw-p-2">
-			<Popover className="tw-relative">
+		<Popover className="tw-relative">
 				<>
 					<Popover.Button
 						onBlur={() => {
-							console.log('Popover.Button blur')
 							setIsShowing(false)
 							setMode(MODE.hours);
 						}}
 						onClick={() => {
-							console.log('Popover.Button click')
 							setIsShowing(!isShowing)
 						}}
 						className={`${isShowing ? '' : 'tw-text-opacity-90'}
@@ -137,9 +133,9 @@ function TimePickerTW({ clearable, disabled, label, placeholder, value, onChange
 						leaveTo="tw-opacity-0 tw-translate-y-1"
 					>
 						<Popover.Panel
-							className="tw-absolute tw-left-1/2 tw-z-10 tw-mt-3 tw-w-screen tw-max-w-sm tw--translate-x-1/2 tw-transform tw-px-4 tw-px-2">
+							className="tw-absolute tw-left-1/2 tw-z-10 tw-mt-1 tw-w-screen tw-max-w-sm tw--translate-x-1/2 tw-transform tw-px-2">
 							{isShowing && (
-								<div className="tw-overflow-hidden tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
+								<div className="tw-overflow-hidden tw-rounded-lg tw-shadow-lg tw-ring-1 tw-ring-black tw-ring-opacity-5">
 									{buildTable(mode, date, timeParts, handleClick, disabled, setIsShowing)}
 								</div>
 							)}
@@ -147,7 +143,6 @@ function TimePickerTW({ clearable, disabled, label, placeholder, value, onChange
 					</Transition>
 				</>
 			</Popover>
-		</ div>
 	)
 }
 

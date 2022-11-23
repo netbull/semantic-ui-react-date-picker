@@ -85,7 +85,6 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		hourOptions = range(0, 24).map(hour => {
 			let disabled = false
 			if (minDate) {
-				console.log({minDate})
 				const tmp = stateDate.clone().hours(hour);
 				disabled = tmp.isBefore(minDate)
 			}
