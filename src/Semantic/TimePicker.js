@@ -3,8 +3,8 @@ import { Icon, Popup, Table } from 'semantic-ui-react';
 import * as PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import { MODE } from './constants';
-import { formatTime } from './ScrollTimePicker/utils';
+import { MODE } from '../constants';
+import { formatTime } from '../ScrollTimePicker/utils';
 const today = new Date();
 
 function buildTable(mode, date, timeParts, callback, disabled) {

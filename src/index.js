@@ -1,9 +1,9 @@
 require('react-dates/initialize');
 
 import './index.scss';
-import DateRangePicker from './DateRangePicker';
-import SingleDatePicker from './SingleDatePicker';
-import TimePicker from './TimePicker';
+import DateRangePicker from './Semantic/DateRangePicker';
+import SingleDatePicker from './Semantic/SingleDatePicker';
+import TimePicker from './Semantic/TimePicker';
 import ScrollTimePicker from './ScrollTimePicker';
 
 import DateRangePickerTW from './Tailwind/DateRangePickerTW';

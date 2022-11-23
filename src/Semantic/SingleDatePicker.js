@@ -6,9 +6,9 @@ import moment from 'moment';
 import omit from 'lodash/omit';
 import range from 'lodash/range';
 
-import { DATE_FORMAT_NORMAL, DATE_FORMAT, TIME_FORMAT, MODE } from './constants';
-import { formatDate } from './utils';
-import Trigger from './Trigger';
+import { DATE_FORMAT_NORMAL, DATE_FORMAT, TIME_FORMAT, MODE } from '../constants';
+import { formatDate } from '../utils';
+import Trigger from '../Semantic/Trigger';
 
 function SingleDatePicker({ asInput, onlyInput, selection, clearable, disabled, required, syncValue, label, placeholder, onChange, onClear, date, minDate, options, outputFormat, valueFormat, triggerSize, triggerStyle, useTimepicker, ...rest }) {
 	if (useTimepicker && (valueFormat.indexOf('H') === -1 || valueFormat.indexOf('m') === -1)) {

@@ -5,9 +5,9 @@ import { DayPickerRangeController, DateRangePickerShape } from 'react-dates';
 import { Popup, Grid, Menu, Button } from 'semantic-ui-react';
 import omit from 'lodash/omit';
 
-import { formatDate } from './utils';
-import { DATE_FORMAT, DATE_FORMAT_NORMAL } from './constants';
-import Trigger from './Trigger';
+import { formatDate } from '../utils';
+import { DATE_FORMAT, DATE_FORMAT_NORMAL } from '../constants';
+import Trigger from '../Semantic/Trigger';
 
 function getRanges(allowSingleDay = false, futureRanges = false) {
   const singleDay = {
