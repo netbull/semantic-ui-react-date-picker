@@ -235,7 +235,7 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 													</div>
 													<button
 														type='button'
-														className='tw-bg-blue-400 tw-border tw-rounded tw-shadow-sm tw-text-gray-800 tw-font-semibold tw-px-3 tw-py-2'
+														className='tw-bg-blue-400 tw-border tw-rounded tw-shadow-sm tw-text-white tw-font-semibold tw-px-3 tw-py-2'
 														disabled={!tempDates.startDate || !tempDates.endDate}
 														onClick={() => {
 															close()

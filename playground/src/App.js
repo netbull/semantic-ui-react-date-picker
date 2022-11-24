@@ -32,6 +32,7 @@ function App() {
 					onClear={() => setDate(null)}
 					date={date}
 					clearable
+					useTimepicker
 				/>
 
 				<SingleDatePickerTW
@@ -42,6 +43,7 @@ function App() {
 					onClear={() => setDate(null)}
 					date={date}
 					clearable
+					useTimepicker
 				/>
 			</div>
 

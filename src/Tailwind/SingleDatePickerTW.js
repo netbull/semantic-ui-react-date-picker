@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
 import * as PropTypes from 'prop-types';
 import {DayPickerSingleDateController, SingleDatePickerShape} from 'react-dates';
 import { Popover, Transition, Listbox } from '@headlessui/react'
@@ -19,10 +19,6 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 	}
 	minDate = formatDate(minDate, valueFormat);
 	const [stateDate, setStateDate] = useState(formatDate(date, valueFormat));
-
-	useEffect(() => {
-		setStateDate(formatDate(date, valueFormat));
-	}, [date]);
 
 	function handleDateChange(newDate, close) {
 		if (!useTimepicker) {
@@ -106,12 +102,14 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 		})
 	}
 
+	const hoursValue = stateDate.hours().toString().padStart(2, '0')
+	const minutesValue = stateDate.minutes().toString().padStart(2, '0')
 
-	const TimePicker = ({onClose}) => {
+	const TimePicker = ({onClose, hoursValue, minutesValue }) => {
 		return (
 			<div className='tw-relative tw-flex tw-pb-3 tw-items-center tw-justify-center'>
 				<Listbox
-					value={stateDate ? stateDate.hours().toString().toString().padStart(2, '0') : '00'}
+					value={hoursValue}
 					onChange={(value) => {
 						handleTimeChange(MODE.hours, value)
 					}}
@@ -122,7 +120,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 							focus:tw-outline-none focus-visible:tw-border-indigo-500 focus-visible:tw-ring-2 focus-visible:tw-ring-white
 							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 lg:tw-text-sm"
 						>
-							<span className="tw-block tw-text-lg">{stateDate ? stateDate.hours() : '00'}</span>
+							<span className="tw-block tw-text-lg">{hoursValue}</span>
 							<span className="tw-pointer-events-none tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-2">
 								{/*ChevronDown*/}
 								<svg
@@ -182,7 +180,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 				<span className='tw-mt-0 tw-mb-[5] tw-mx-3 tw-font-semibold tw-text-lg'>:</span>
 
 				<Listbox
-					value={stateDate ? stateDate.minutes().toString().toString().padStart(2, '0') : '00'}
+					value={minutesValue}
 					onChange={(value) => {
 						handleTimeChange(MODE.minutes, value, onClose)
 					}}
@@ -193,7 +191,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 							focus:tw-outline-none focus-visible:tw-border-indigo-500 focus-visible:tw-ring-2 focus-visible:tw-ring-white
 							focus-visible:tw-ring-opacity-75 focus-visible:tw-ring-offset-2 focus-visible:tw-ring-offset-orange-300 lg:tw-text-sm"
 						>
-							<span className="tw-block tw-text-lg">{stateDate ? stateDate.minutes() : '00'}</span>
+							<span className="tw-block tw-text-lg">{minutesValue}</span>
 							<span className="tw-pointer-events-none tw-absolute tw-inset-y-0 tw-right-0 tw-flex tw-items-center tw-pr-2">
 								{/*ChevronDown*/}
 								<svg
@@ -297,7 +295,7 @@ function SingleDatePickerTW({ asInput, onlyInput, selection, clearable, disabled
 										<div className="tw-overflow-hidden  tw-rounded-lg tw-shadow-md tw-ring-1 tw-ring-black tw-ring-opacity-5">
 											<DayPickerSingleDateController {...pickerOptions } onDateChange={(date) => handleDateChange(date, close)} />
 
-											{useTimepicker && <TimePicker onClose={close}/>}
+											{useTimepicker && <TimePicker onClose={close} hoursValue={hoursValue} minutesValue={minutesValue}/>}
 										</div>
 									)}
 								</Popover.Panel>
