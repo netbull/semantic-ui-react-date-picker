@@ -75,7 +75,7 @@ function findActiveRange(allowSingleDay, futureRanges, startDate, endDate, forma
   return match;
 }
 
-function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, clearable, disabled, label, placeholder, onChange, onClear, defaultStartDate, defaultEndDate, startDate, endDate, options, outputFormat, valueFormat}) {
+function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, clearable, disabled, label, placeholder, onChange, onClear, defaultStartDate, defaultEndDate, startDate, endDate, options, outputFormat, valueFormat, triggerStyle}) {
 	const isMobile = useWindowSize()
 
 	const [dates, setDates] = useState(
@@ -202,6 +202,7 @@ function DateRangePickerTW({ allowSingleDay, futureRanges, asInput, selection, c
 							placeholder={placeholder}
 							onClear={handleClear}
 							outputFormat={outputFormat}
+							style={triggerStyle}
 						/>
 					</Popover.Button>
 					<Transition
@@ -287,6 +288,7 @@ DateRangePickerTW.propTypes = {
   options: PropTypes.shape(omit(DateRangePickerShape, ['onDatesChange', 'onFocusChange', 'startDateId', 'endDateId'])),
 	outputFormat: PropTypes.string,
 	valueFormat: PropTypes.string,
+	triggerStyle: PropTypes.object,
 };
 
 DateRangePickerTW.defaultProps = {
@@ -305,6 +307,7 @@ DateRangePickerTW.defaultProps = {
 	options: {},
 	outputFormat: DATE_FORMAT,
 	valueFormat: DATE_FORMAT_NORMAL,
+	triggerStyle: {},
 };
 
 export default DateRangePickerTW;
