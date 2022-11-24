@@ -324,7 +324,7 @@ SingleDatePickerTW.propTypes = {
 	onClear: PropTypes.func,
 	date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(moment)]),
 	minDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(moment)]),
-	options: PropTypes.shape(omit(SingleDatePickerShape, ['onDateChange', 'id'])),
+	options: PropTypes.shape(omit(SingleDatePickerShape, ['onDateChange', 'onFocusChange', 'id'])),
 	outputFormat: PropTypes.string,
 	valueFormat: PropTypes.string,
 	triggerStyle: PropTypes.object,
