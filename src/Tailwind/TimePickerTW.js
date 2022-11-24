@@ -36,7 +36,7 @@ function buildTable(mode, date, timeParts, callback, disabled, setIsShowing) {
 						callback(cellText);
 					}}
 					key={`calendar-time-row-${r}-cell-${c}`}
-					className={`hover:tw-bg-gray-200 tw-py-2 tw-border ${isActive ? 'tw-bg-gray-200'  : ''}`}>
+					className={`hover:tw-bg-gray-200 tw-p-3 tw-border ${isActive ? 'tw-bg-gray-200' : ''}`}>
 					{cellText}
 				</td>
 			));
@@ -133,7 +133,7 @@ function TimePickerTW({ clearable, disabled, label, placeholder, value, onChange
 						leaveTo="tw-opacity-0 tw-translate-y-1"
 					>
 						<Popover.Panel
-							className="tw-absolute tw-left-1/2 tw-z-10 tw-mt-1 tw-w-screen tw-max-w-sm tw--translate-x-1/2 tw-transform tw-px-2">
+							className="tw-w-fit tw-max-w-sm tw-absolute tw-left-1/2 tw-z-10 tw-mt-1 tw--translate-x-1/2 tw-transform tw-px-2">
 							{isShowing && (
 								<div className="tw-overflow-hidden tw-rounded-lg tw-shadow-lg tw-ring-1 tw-ring-black tw-ring-opacity-5">
 									{buildTable(mode, date, timeParts, handleClick, disabled, setIsShowing)}
