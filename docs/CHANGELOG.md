@@ -1,3 +1,10 @@
+## [1.1.9](https://github.com/netbull/semantic-ui-react-date-picker/compare/v1.1.8...v1.1.9) (2022-12-23)
+
+
+### Bug Fixes
+
+* trigger props validation ([b13c484](https://github.com/netbull/semantic-ui-react-date-picker/commit/b13c484d61793a6814a954c40af03b4d60a6fcc2))
+
 ## [1.1.8](https://github.com/netbull/semantic-ui-react-date-picker/compare/v1.1.7...v1.1.8) (2022-12-23)
 
 
