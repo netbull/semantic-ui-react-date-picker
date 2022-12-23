@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react';
+import React from 'react';
 import cx from 'classnames';
 import * as PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
@@ -56,7 +56,7 @@ function Trigger({ dates, date, selection, asInput, onlyInput, clearable, disabl
 		appliedSize = size;
 	}
 	return (
-		<div className={cx(`ui dropdown ${appliedSize}`, { selection })} style={style} {...rest}>
+		<div className={cx(`ui dropdown ${appliedSize}`, { selection })} style={style}>
 			<Icon name="calendar" />
 			<span>{printLabel}</span>
 			{clearable && !isEmpty ? (
