@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import cx from 'classnames';
 import * as PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
@@ -20,11 +20,12 @@ function Trigger({ dates, date, selection, asInput, onlyInput, clearable, disabl
 		isEmpty = false;
 	}
 
+	const inputProps = Object.fromEntries(Object.entries(rest).filter(([key]) => ['accept','alt','autoComplete','autoFocus','capture','checked','crossOrigin','disabled','form','formAction','formEncType','formMethod','formNoValidate','formTarget','height','list','max','maxLength','min','minLength','multiple','name','pattern','placeholder','readOnly','required','size','src','step','type','value','width'].includes(key)));
 	const input = (
 		<div className={cx(`ui input ${size}`, { icon: clearable })}>
 			<input
 				type="text"
-				{...rest}
+				{...inputProps}
 				value={date ? date.format(outputFormat) : ''}
 				placeholder={placeholder}
 				disabled={disabled}
