@@ -21,11 +21,13 @@ function Trigger({ dates, date, selection, asInput, onlyInput, clearable, disabl
 	}
 
 	const inputProps = Object.fromEntries(Object.entries(rest).filter(([key]) => ['accept','alt','autoComplete','autoFocus','capture','checked','crossOrigin','disabled','form','formAction','formEncType','formMethod','formNoValidate','formTarget','height','list','max','maxLength','min','minLength','multiple','name','pattern','placeholder','readOnly','required','size','src','step','type','value','width'].includes(key)));
+	const triggerProps = Object.fromEntries(Object.entries(rest).filter(([key]) => ['onBlur','onClick','onFocus','onMouseEnter','onMouseLeave'].includes(key)));
 	const input = (
 		<div className={cx(`ui input ${size}`, { icon: clearable })}>
 			<input
 				type="text"
 				{...inputProps}
+				{...triggerProps}
 				value={date ? date.format(outputFormat) : ''}
 				placeholder={placeholder}
 				disabled={disabled}
@@ -56,7 +58,7 @@ function Trigger({ dates, date, selection, asInput, onlyInput, clearable, disabl
 		appliedSize = size;
 	}
 	return (
-		<div className={cx(`ui dropdown ${appliedSize}`, { selection })} style={style}>
+		<div className={cx(`ui dropdown ${appliedSize}`, { selection })} style={style} {...triggerProps}>
 			<Icon name="calendar" />
 			<span>{printLabel}</span>
 			{clearable && !isEmpty ? (
